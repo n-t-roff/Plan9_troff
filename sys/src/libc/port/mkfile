@@ -1,0 +1,26 @@
+LIB =		libc_port.a
+
+OFILES =	pow10.o rune.o utflen.o getfields.o utfrune.o utfecpy.o \
+		nan.o memccpy.o memchr.o memcmp.o memmove.o memset.o \
+		strcat.o strchr.o strcmp.o strcpy.o strcspn.o strdup.o \
+		strecpy.o strlen.o strncat.o strncmp.o strncpy.o strpbrk.o \
+		strrchr.o strspn.o strstr.o strtod.o strtok.o strtol.o \
+		strtoll.o strtoul.o strtoull.o muldiv.o atof.o atol.o \
+		atoll.o getcallerpc.o charstod.o runetype.o runebsearch.o \
+		tokenize.o
+
+CPPFLAGS =	-I../../../include
+
+all:		${LIB}
+
+clean:
+		rm -f ${OFILES} ${LIB}
+
+install uninstall:
+
+${LIB}:		${OFILES}
+		ar cr $@ ${OFILES}
+		ranlib $@
+
+.c.o:
+		${CC} -fPIC ${CFLAGS} ${CPPFLAGS} -c $<

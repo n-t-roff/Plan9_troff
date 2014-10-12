@@ -1,0 +1,25 @@
+_BINDIR =	${DWBHOME}/${BINDIR}
+
+TARG =		pic
+
+OFILES =	picy.o picl.o main.o print.o misc.o symtab.o blockgen.o \
+		boxgen.o circgen.o arcgen.o linegen.o movegen.o textgen.o \
+		input.o for.o pltroff.o
+
+YFLAGS =	-d
+
+all:		$(TARG)
+
+clean:
+		rm -f $(OFILES) $(TARG) y.tab.h
+
+install:
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARG} ${_BINDIR}/
+
+uninstall:
+		rm -f ${_BINDIR}/${TARG}
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+$(TARG):	$(OFILES)
+		${CC} -o $@ ${OFILES} -lm

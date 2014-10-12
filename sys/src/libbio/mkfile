@@ -1,0 +1,37 @@
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+
+LIB0 =		libbio.so
+LIB1 =		${LIB0}.1
+LIB =		${LIB1}.0.1
+
+OFILES =	bbuffered.o bfildes.o bflush.o bgetrune.o bgetc.o bgetd.o \
+		binit.o boffset.o bprint.o bputrune.o bputc.o brdline.o \
+		brdstr.o bread.o bseek.o bwrite.o bvprint.o
+
+CPPFLAGS =	-I../../include
+
+all:		${LIB}
+
+clean:
+		rm -f ${OFILES} ${LIB0}*
+
+install:	all
+		@[ -d ${_LIBDIR} ] || mkdir -p ${_LIBDIR}
+		install ${LIB} ${_LIBDIR}/
+		@cd ${_LIBDIR}; \
+		rm -f ${LIB0} ${LIB1}; \
+		ln -s ${LIB} ${LIB1}; \
+		ln -s ${LIB1} ${LIB0}
+
+uninstall:
+		rm -f ${_LIBDIR}/${LIB0}*
+		@rmdir ${_LIBDIR} 2> /dev/null || true
+
+${LIB}:		${OFILES}
+		${CC} -shared -Wl,-soname,${LIB1} -o $@ ${OFILES}
+		rm -f ${LIB0} ${LIB1}
+		ln -s $@ ${LIB1}
+		ln -s ${LIB1} ${LIB0}
+
+.c.o:
+		${CC} -fPIC ${CFLAGS} ${CPPFLAGS} -c $<

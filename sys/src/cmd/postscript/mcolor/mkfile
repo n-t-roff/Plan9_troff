@@ -1,0 +1,22 @@
+_TMACDIR =	$(DWBHOME)/$(TMACDIR)
+_MAN5DIR =	$(DWBHOME)/$(MAN5DIR)
+
+INFILE =	color.sr
+OUTFILE =	$(_TMACDIR)/tmac.color
+MANFILE =	mcolor.5
+
+all:		$(INFILE) $(MANFILE)
+
+clean:
+
+install:
+		[ -d $(_TMACDIR) ] || mkdir -p $(_TMACDIR)
+		install -m 644 $(INFILE) $(OUTFILE)
+		[ -d $(_MAN5DIR) ] || mkdir -p $(_MAN5DIR)
+		install -m 644 $(MANFILE) $(_MAN5DIR)/
+
+uninstall:
+		rm -f $(OUTFILE)
+		@rmdir $(_TMACDIR) 2> /dev/null || true
+		rm -f $(_MAN5DIR)/$(MANFILE)
+		@rmdir $(_MAN5DIR) 2> /dev/null || true

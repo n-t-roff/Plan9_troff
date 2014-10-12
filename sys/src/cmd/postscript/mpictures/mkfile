@@ -1,0 +1,16 @@
+_TMACDIR =	$(DWBHOME)/$(TMACDIR)
+
+INFILE =	pictures.sr
+OUTFILE =	$(_TMACDIR)/tmac.pictures
+
+all:		$(INFILE) $(MANFILE)
+
+clean:
+
+install:
+		[ -d $(_TMACDIR) ] || mkdir -p $(_TMACDIR)
+		install -m 644 $(INFILE) $(OUTFILE)
+
+uninstall:
+		rm -f $(OUTFILE)
+		@rmdir $(_TMACDIR) 2> /dev/null || true

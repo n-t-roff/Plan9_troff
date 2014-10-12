@@ -1,0 +1,25 @@
+_BINDIR =	${DWBHOME}/${BINDIR}
+
+TARG =		grap
+
+OFILES =	grap.o grapl.o main.o input.o print.o frame.o for.o coord.o \
+		ticks.o plot.o label.o misc.o
+
+YFLAGS =	-d
+CPPFLAGS =	-DLIBDIR='"$(DWBHOME)/$(LIBDIR)"'
+
+all:		$(TARG)
+
+clean:
+		rm -f $(OFILES) $(TARG) y.tab.h
+
+install:
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARG} ${_BINDIR}/
+
+uninstall:
+		rm -f ${_BINDIR}/${TARG}
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+$(TARG):	$(OFILES)
+		${CC} -o $@ ${OFILES} -lm

@@ -1,0 +1,11 @@
+EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
+		TEXHYPHENS=${TEXHYPHENS} ALTHYPHENS=${ALTHYPHENS} \
+		DWBHOME=${DWBHOME} BINDIR=${BINDIR} LIBDIR=${LIBDIR} \
+		CFLAGS=${CFLAGS} LDFLAGS=${LDFLAGS}
+
+SUBDIRS =	term font/devutf
+
+all clean install uninstall:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done

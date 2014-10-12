@@ -1,0 +1,14 @@
+_NTERMDIR =	${DWBHOME}/${NTERMDIR}
+
+all clean:
+
+install:
+		@[ -d ${_NTERMDIR} ] || mkdir -p ${_NTERMDIR}
+		for i in tab.*; do \
+			install -m 644 $$i ${_NTERMDIR}/; \
+		done
+
+uninstall:
+		for i in tab.*; do \
+			rm -f ${_NTERMDIR}/$$i; \
+		done

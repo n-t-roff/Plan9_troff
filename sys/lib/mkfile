@@ -1,0 +1,39 @@
+EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
+		TEXHYPHENS=${TEXHYPHENS} ALTHYPHENS=${ALTHYPHENS} \
+		DWBHOME=${DWBHOME} BINDIR=${BINDIR} LIBDIR=${LIBDIR} \
+		CFLAGS=${CFLAGS} LDFLAGS=${LDFLAGS} POSTDIR=${POSTDIR} \
+		TEMPDIR=${TEMPDIR}
+
+SUBDIRS =	tmac troff
+
+_POSTDIR =	${DWBHOME}/${POSTDIR}
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+
+LIBFILES =	eqnchar grap.defines
+
+all clean:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+
+install:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		@[ -e ${_POSTDIR} ] && rm -rf ${_POSTDIR} || true;
+		@mkdir -p `dirname ${_POSTDIR}`;
+		cp -R postscript `dirname ${_POSTDIR}`;
+		@find ${_POSTDIR} -type d -exec chmod 755 {} \;;
+		@find ${_POSTDIR} -type f -exec chmod 644 {} \;;
+		@[ -d $(_LIBDIR) ] || mkdir -p $(_LIBDIR);
+		install -m 644 $(LIBFILES) $(_LIBDIR)/
+
+uninstall:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		@rm -rf ${_POSTDIR} || true;
+		@for i in $(LIBFILES); do \
+			rm -f $(_LIBDIR)/$$i; \
+		done
+		@rmdir ${_POSTDIR} 2>&1 >/dev/null || true;

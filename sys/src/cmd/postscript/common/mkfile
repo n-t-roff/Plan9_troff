@@ -1,0 +1,14 @@
+OFILES =	bbox.o glob.o misc.o request.o tempnam.o getopt.o common.o
+
+HFILES =	comments.h gen.h ext.h request.h path.h
+
+CPPFLAGS =	-I../../../../include -DFONTDIR='"${DWBHOME}/${FONTDIR}"' \
+		-DPOSTDIR='"${DWBHOME}/${POSTDIR}"' \
+		-DTEMPDIR='"${TEMPDIR}"'
+
+all:		${OFILES}
+
+clean:
+		rm -f ${OFILES}
+
+install uninstall:

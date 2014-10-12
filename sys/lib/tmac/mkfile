@@ -1,0 +1,22 @@
+_TMACDIR =	${DWBHOME}/${TMACDIR}
+
+FILES =		complet.1127 cover.1127 mmn mmt name.sed sendcover strings.mm \
+		tmac.an tmac.anhtml tmac.antimes tmac.bits tmac.cs tmac.e \
+		tmac.html tmac.jsdisp tmac.m tmac.mcs tmac.nihongo tmac.org \
+		tmac.pictures tmac.psychrefs tmac.ptx tmac.rscover tmac.s \
+		tmac.scover tmac.sdisp tmac.skeep tmac.soft tmac.spe \
+		tmac.srefs tmac.twb tmac.uni tmac.v hyphen.tex
+
+all clean:
+
+install:
+		@[ -d ${_TMACDIR} ] || mkdir -p ${_TMACDIR}
+		for i in ${FILES}; do \
+			sed "s'/sys/lib/tmac'${_TMACDIR}'" $$i > \
+			    ${_TMACDIR}/$$i; \
+		done
+
+uninstall:
+		for i in ${FILES}; do \
+			rm -f ${_TMACDIR}/$$i; \
+		done

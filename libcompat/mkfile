@@ -1,0 +1,36 @@
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+
+LIB0 =		libcompat.so
+LIB1 =		${LIB0}.1
+LIB =		${LIB1}.0.1
+
+OFILES =	seek.o USED.o argv0.o exits.o create.o errstr.o \
+		setmalloctag.o
+
+CPPFLAGS =	-I../src/include
+
+all:		${LIB}
+
+clean:
+		rm -f ${OFILES} ${LIB0}*
+
+install:	all
+		@[ -d ${_LIBDIR} ] || mkdir -p ${_LIBDIR}
+		install ${LIB} ${_LIBDIR}/
+		@cd ${_LIBDIR}; \
+		rm -f ${LIB0} ${LIB1}; \
+		ln -s ${LIB} ${LIB1}; \
+		ln -s ${LIB1} ${LIB0}
+
+uninstall:
+		rm -f ${_LIBDIR}/${LIB0}*
+		@rmdir ${_LIBDIR} 2> /dev/null || true
+
+${LIB}:		${OFILES}
+		${CC} -shared -Wl,-soname,${LIB1} -o $@ ${OFILES}
+		rm -f ${LIB0} ${LIB1}
+		ln -s $@ ${LIB1}
+		ln -s ${LIB1} ${LIB0}
+
+.c.o:
+		${CC} -fPIC ${CFLAGS} ${CPPFLAGS} -c $<

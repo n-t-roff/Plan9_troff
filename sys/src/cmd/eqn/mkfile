@@ -1,0 +1,49 @@
+_BINDIR =	${DWBHOME}/${BINDIR}
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+PKGROOT =	../../../..
+
+TARG =		eqn
+
+OFILES =	main.o tuning.o diacrit.o eqnbox.o font.o fromto.o funny.o \
+		glob.o integral.o input.o lex.o lookup.o mark.o matrix.o \
+		move.o over.o paren.o pile.o shift.o size.o sqrt.o text.o \
+		eqn.o
+
+YFLAGS =	-d
+CPPFLAGS =	-I../../../include
+
+_LDFLAGS =	-L${PKGROOT}/libcompat      -lcompat \
+		-L${PKGROOT}/sys/src/libc   -lc_p9   \
+		-L${PKGROOT}/sys/src/libbio -lbio    \
+		-L${_LIBDIR} -Wl,-rpath,${_LIBDIR}
+
+all:		${TARG}
+
+clean:
+		rm -f ${OFILES} ${TARG} eqn.c y.tab.*
+
+install:
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARG} ${_BINDIR}/
+
+uninstall:
+		rm -f ${_BINDIR}/${TARG}
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+${TARG}:	${OFILES}
+		${CC} -o $@ ${OFILES} ${_LDFLAGS}
+
+diacrit.o:	eqn.o
+funny.o:	eqn.o
+input.o:	eqn.o
+integral.o:	eqn.o
+lex.o:		eqn.o
+lookup.o:	eqn.o
+move.o:		eqn.o
+pile.o:		eqn.o
+shift.o:	eqn.o
+text.o:		eqn.o
+
+eqn.c:		eqn.y
+		$(YACC.y) eqn.y
+		sed -f yyval.sed < y.tab.c > $@

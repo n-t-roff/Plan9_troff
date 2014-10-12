@@ -1,0 +1,52 @@
+_BINDIR =	${DWBHOME}/${BINDIR}
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+PKGROOT =	../../..
+
+EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
+		TEXHYPHENS=${TEXHYPHENS} ALTHYPHENS=${ALTHYPHENS} \
+		DWBHOME=${DWBHOME} BINDIR=${BINDIR} LIBDIR=${LIBDIR} \
+		CFLAGS=${CFLAGS} LDFLAGS=${LDFLAGS} POSTDIR=${POSTDIR} \
+		TEMPDIR=${TEMPDIR} MAN1DIR=$(MAN1DIR) MAN5DIR=$(MAN5DIR) \
+		PROGRAMNAME="$(PROGRAMNAME)"
+
+SUBDIRS =	troff postscript tbl eqn pic grap troff2html
+
+OBJS =		col.o
+TARGS =		$(OBJS:.o=)
+
+CPPFLAGS =	-I../../include
+
+_LDFLAGS =	-L${PKGROOT}/libcompat      -lcompat \
+		-L${PKGROOT}/sys/src/libc   -lc_p9   \
+		-L${PKGROOT}/sys/src/libbio -lbio    \
+		-L${_LIBDIR} -Wl,-rpath,${_LIBDIR}
+
+all:		$(TARGS)
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+
+clean:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		rm -f $(OBJS) $(TARGS)
+
+install:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARGS} ${_BINDIR}/
+
+uninstall:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		@for i in ${TARGS}; do \
+			rm -f ${_BINDIR}/$$i; \
+		done
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+col:		col.o
+		${CC} -o $@ $@.o ${_LDFLAGS}

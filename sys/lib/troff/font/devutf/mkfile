@@ -1,0 +1,23 @@
+_FONTDIR =	${DWBHOME}/${FONTDIR}/devutf
+
+FILES =		0100to25ff AB AI AR AX B BI C CB CI CO CW CX CY DESC GR H HB \
+		HI HK HL HM HX Hb Hi Hr Hx I Jp KB KI KR KX LINKFILE LucidaCW \
+		LucidaSans LucidaSansB LucidaSansCW83 LucidaSansI NB NI NR NX \
+		PA PB PI PX R R.nomath S S1 Syntax SyntaxB SyntaxI UnivMath1 \
+		UnivMath2 UnivMath3 UnivMath4 UnivMath5 UnivMath6 ZD ZI mkMAP \
+		shell.lib utfmap
+
+all:		${FILES}
+
+clean:
+
+install:
+		@[ -d ${_FONTDIR} ] || mkdir -p ${_FONTDIR}
+		for i in ${FILES}; do \
+			install -m 644 $$i ${_FONTDIR}/; \
+		done
+
+uninstall:
+		for i in ${FILES}; do \
+			rm -f ${_FONTDIR}/$$i; \
+		done

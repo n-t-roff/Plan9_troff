@@ -1,0 +1,48 @@
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+
+SUBLIBS =	port/libc_port.a fmt/libc_fmt.a 9sys/libc_9sys.a
+
+LIB0 =		libc_p9.so
+LIB1 =		${LIB0}.1
+LIB =		${LIB1}.0.1
+
+EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
+		TEXHYPHENS=${TEXHYPHENS} ALTHYPHENS=${ALTHYPHENS} \
+		DWBHOME=${DWBHOME} BINDIR=${BINDIR} LIBDIR=${LIBDIR} \
+		CFLAGS=${CFLAGS} LDFLAGS=${LDFLAGS}
+
+SUBDIRS =	port fmt 9sys
+
+all:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		${CC} -shared -Wl,-soname,${LIB1} -o ${LIB} \
+		    -Wl,--whole-archive ${SUBLIBS} -Wl,--no-whole-archive
+		rm -f ${LIB0} ${LIB1}
+		ln -s ${LIB}  ${LIB1}
+		ln -s ${LIB1} ${LIB0}
+
+clean:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		rm -f ${LIB0}*
+
+install:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		@[ -d ${_LIBDIR} ] || mkdir -p ${_LIBDIR}
+		install ${LIB} ${_LIBDIR}/
+		@cd ${_LIBDIR}; \
+		rm -f ${LIB0} ${LIB1}; \
+		ln -s ${LIB}  ${LIB1}; \
+		ln -s ${LIB1} ${LIB0}
+
+uninstall:
+		@for i in ${SUBDIRS}; do \
+			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
+		done
+		rm -f ${_LIBDIR}/${LIB0}*
+		@rmdir ${_LIBDIR} 2> /dev/null || true

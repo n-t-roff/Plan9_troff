@@ -1,0 +1,60 @@
+TARG =		troff
+OFILES =	n1.o n2.o n3.o n4.o n5.o t6.o n6.o n7.o n8.o n9.o t10.o n10.o \
+		t11.o ni.o hytab.o suftab.o dwbinit.o
+
+HFILES =	tdef.h fns.h ext.h dwbinit.h
+
+CPPFLAGS =	-DUNICODE
+
+TMACDIR =	sys/lib/tmac/tmac.
+FONTDIR =	sys/lib/troff/font
+NTERMDIR =	sys/lib/troff/term
+TEXHYPHENS =	sys/lib/texmf/tex/generic/hyphen/hyphen.tex
+DWBHOME =	/
+TDEVNAME =	utf
+NDEVNAME =	utf
+_BINDIR =	${DWBHOME}/${BINDIR}
+
+all:		${TARG}
+		ln -fs ${TARG} nroff
+
+clean:
+		rm -f ${OFILES} ${TARG} nroff
+
+install:
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARG} nroff ${_BINDIR}/
+
+uninstall:
+		rm -f ${_BINDIR}/${TARG}
+		rm -f ${_BINDIR}/nroff
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+${TARG}:	${OFILES}
+		${CC} -o $@ ${OFILES}
+
+ni.o:		ni.c ${HFILES}
+		${CC} -o $@ -c ${CFLAGS} ${CPPFLAGS} \
+		    -DTMACDIR='"${TMACDIR}"' ni.c
+
+t10.o:		t10.c ${HFILES}
+		${CC} -o $@ -c ${CFLAGS} ${CPPFLAGS} \
+		    -DTDEVNAME='"${TDEVNAME}"' t10.c
+
+n1.o:		n1.c ${HFILES}
+		${CC} -o $@ -c ${CFLAGS} ${CPPFLAGS} -DFONTDIR='"${FONTDIR}"' \
+		    -DNTERMDIR='"${NTERMDIR}"' -DTEXHYPHENS='"${TEXHYPHENS}"' \
+		    -DALTHYPHENS='"${ALTHYPHENS}"' -DDWBHOME='"${DWBHOME}"' \
+		    -DPROGRAMNAME='"$(PROGRAMNAME)"' n1.c
+
+n10.o:		n10.c ${HFILES}
+		${CC} -o $@ -c ${CFLAGS} ${CPPFLAGS} \
+		    -DNDEVNAME='"${NDEVNAME}"' n10.c
+
+n8.o:		n8.c ${HFILES}
+		${CC} -o $@ -c ${CFLAGS} ${CPPFLAGS} \
+		    -DTEXHYPHENS='"${TEXHYPHENS}"' n8.c
+
+dwbinit.o:	dwbinit.c
+		${CC} -o $@ -c ${CFLAGS} ${CPPFLAGS} \
+		    -DDWBHOME='"${DWBHOME}"' dwbinit.c
