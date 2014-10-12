@@ -1,6 +1,3 @@
-Plan9_troff
-===========
-
 This is the troff version of Plan 9 ported to UNIX (tested on OpenBSD, NetBSD and Linux amd64).
 To keep the code changes to a minimum parts of Plan 9 libraries (mainly libc) had also been portet.
 
@@ -14,4 +11,4 @@ Generated files are removed with `make clean`.
 The repository is kept up-to-date with `git pull`.
 
 If there are any problems please report them to the [issue tracker](https://github.com/n-t-roff/Plan9_troff/issues)
-or send a mail to <troff at arcor dot de>.
+or send a mail to &lt;troff at arcor dot de&gt;.
