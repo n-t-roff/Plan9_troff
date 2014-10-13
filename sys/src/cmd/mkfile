@@ -11,7 +11,7 @@ EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
 
 SUBDIRS =	troff postscript tbl eqn pic grap troff2html
 
-OBJS =		col.o
+OBJS =		col.o deroff.o
 TARGS =		$(OBJS:.o=)
 
 CPPFLAGS =	-I../../include
@@ -49,4 +49,7 @@ uninstall:
 		@rmdir ${_BINDIR} 2> /dev/null || true
 
 col:		col.o
+		${CC} -o $@ $@.o ${_LDFLAGS}
+
+deroff:		deroff.o
 		${CC} -o $@ $@.o ${_LDFLAGS}
