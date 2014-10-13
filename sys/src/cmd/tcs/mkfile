@@ -1,0 +1,44 @@
+_BINDIR =	${DWBHOME}/${BINDIR}
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+PKGROOT =	../../../..
+
+TARG =		tcs
+
+OFILES =	tcs.o conv_jis.o conv_big5.o conv_gb.o conv_gbk.o conv_ksc.o \
+		utf.o html.o kuten208.o gb.o gbk.o ksc.o big5.o tune.o
+
+CPPFLAGS =	-DPLAN9 -I${PKGROOT}/sys/include
+
+_LDFLAGS =	-L${PKGROOT}/libcompat      -lcompat \
+		-L${PKGROOT}/sys/src/libc   -lc_p9   \
+		-L${PKGROOT}/sys/src/libbio -lbio    \
+		-L${_LIBDIR} -Wl,-rpath,${_LIBDIR}
+
+all:		${TARG}
+
+clean:
+		rm -f ${OFILES} ${TARG}
+
+install:	${TARG}
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARG} ${_BINDIR}/
+
+uninstall:
+		rm -f ${_BINDIR}/${TARG}
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+${TARG}:	${OFILES}
+		${CC} -o $@ ${OFILES} ${_LDFLAGS}
+
+tcs.o utf.o:		hdr.h
+tcs.o:			jis.h
+tcs.o kuten208.o:	kuten208.h
+tcs.o big5.o:		big5.h
+tcs.o gb.o:		gb.h
+tcs.o:			cyrillic.h
+tcs.o:			conv.h
+tcs.o:			8859.h
+tcs.o:			ms.h
+tcs.o:			misc.h
+conv%.o:		conv.h
+conv_ksc.o:		ksc.h

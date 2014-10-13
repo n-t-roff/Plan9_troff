@@ -2,6 +2,7 @@
 #define __LIBC9_H__
 
 #define SET(x) ((x)=0)
+#define _exits(x) exits(x)
 
 #define	nelem(x)	(sizeof(x)/sizeof((x)[0]))
 #define	offsetof(s, m)	(ulong)(&(((s*)0)->m))
