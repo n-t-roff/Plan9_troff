@@ -5,7 +5,7 @@ LIB1 =		${LIB0}.1
 LIB =		${LIB1}.0.1
 
 OFILES =	seek.o USED.o argv0.o exits.o create.o errstr.o \
-		setmalloctag.o
+		setmalloctag.o mallocz.o
 
 CPPFLAGS =	-I../src/include
 

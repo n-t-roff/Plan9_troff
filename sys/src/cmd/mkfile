@@ -12,6 +12,7 @@ EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
 SUBDIRS =	troff postscript tbl eqn pic grap troff2html
 
 OBJS =		col.o deroff.o
+		#ms2html.o
 TARGS =		$(OBJS:.o=)
 
 CPPFLAGS =	-I../../include
@@ -32,7 +33,7 @@ clean:
 		done
 		rm -f $(OBJS) $(TARGS)
 
-install:
+install:	$(TARGS)
 		@for i in ${SUBDIRS}; do \
 			(cd $$i; make -f mkfile ${EXPMACS} $@) || exit; \
 		done
@@ -52,4 +53,7 @@ col:		col.o
 		${CC} -o $@ $@.o ${_LDFLAGS}
 
 deroff:		deroff.o
+		${CC} -o $@ $@.o ${_LDFLAGS}
+
+ms2html:	ms2html.o
 		${CC} -o $@ $@.o ${_LDFLAGS}
