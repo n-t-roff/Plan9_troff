@@ -13,7 +13,8 @@ OFILES =	char.o html.o input.o main.o roff.o t1.o t2.o t3.o t4.o t5.o \
 
 CPPFLAGS =	-I../../../include \
 		-DTMACDIR='"$(DWBHOME)/$(TMACDIR)"' \
-		-DFONTDIR='"$(DWBHOME)/$(FONTDIR)"'
+		-DFONTDIR='"$(DWBHOME)/$(FONTDIR)"' \
+		-DBINDIR='"$(DWBHOME)/$(BINDIR)"'
 
 _LDFLAGS =	-L${PKGROOT}/libcompat      -lcompat \
 		-L${PKGROOT}/sys/src/libc   -lc_p9   \

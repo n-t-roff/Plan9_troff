@@ -37,7 +37,7 @@ rune2html(Rune r)
 			dup2(p[1], 1);
 			close(p[0]);
 			close(p[1]);
-			execl("/bin/tcs", "tcs", "-t", "html", nil);
+			execl(BINDIR "/tcs", "tcs", "-t", "html", nil);
 			_exits(0);
 		default:
 			fd = p[1];

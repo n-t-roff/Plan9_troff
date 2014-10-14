@@ -91,7 +91,7 @@ r_inputpipe(Rune *name)
 			close(p[0]);
 		}
 		close(p[1]);
-		execl("/bin/rc", "rc", "-c", esmprint("%S", cmd), nil);
+		execl("/bin/sh", "sh", "-c", esmprint("%S", cmd), nil);
 		warn("%Cdp %S: %r", dot, cmd);
 		_exits(nil);
 	case -1:
