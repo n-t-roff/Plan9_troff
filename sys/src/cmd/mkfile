@@ -9,7 +9,7 @@ EXPMACS =	TMACDIR=${TMACDIR} FONTDIR=${FONTDIR} NTERMDIR=${NTERMDIR} \
 		TEMPDIR=${TEMPDIR} MAN1DIR=$(MAN1DIR) MAN5DIR=$(MAN5DIR) \
 		PROGRAMNAME="$(PROGRAMNAME)"
 
-SUBDIRS =	troff postscript tbl eqn pic grap troff2html tcs #htmlroff
+SUBDIRS =	troff postscript tbl eqn pic grap troff2html tcs htmlroff
 
 OBJS =		col.o deroff.o #ms2html.o
 TARGS =		$(OBJS:.o=)

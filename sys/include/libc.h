@@ -3,6 +3,7 @@
 
 #define SET(x) ((x)=0)
 #define _exits(x) exits(x)
+#define _assert(x) exits(x)
 
 #define	nelem(x)	(sizeof(x)/sizeof((x)[0]))
 #define	offsetof(s, m)	(ulong)(&(((s*)0)->m))
@@ -327,10 +328,6 @@ struct Tm
 	int	tzoff;
 } Tm;
 
-//extern	Tm*	gmtime(long);
-//extern	Tm*	localtime(long);
-//extern	char*	asctime(Tm*);
-//extern	char*	ctime(long);
 extern	double	cputime(void);
 extern	long	times(long*);
 extern	long	tm2sec(Tm*);
@@ -374,7 +371,6 @@ extern	char*	getenv(char*);
 extern	int	getfields(char*, char**, int, int, char*);
 extern	int	gettokens(char *, char **, int, char *);
 extern	char*	getuser(void);
-extern	char*	getwd(char*, int);
 extern	int	iounit(int);
 extern	long	labs(long);
 extern	double	ldexp(double, int);
@@ -398,7 +394,6 @@ extern	void	sysfatal(char*, ...);
 #pragma	varargck	argpos	sysfatal	1
 extern	void	syslog(int, char*, char*, ...);
 #pragma	varargck	argpos	syslog	3
-//extern	long	time(long*);
 extern	int	tolower(int);
 extern	int	toupper(int);
 
@@ -647,21 +642,15 @@ struct IOchunk
 	ulong	len;
 } IOchunk;
 
-extern	void	_exits(char*);
 
 extern	void	abort(void);
-extern	int	access(char*, int);
-extern	long	alarm(ulong);
 extern	int	await(char*, int);
 extern	int	bind(char*, char*, int);
 extern	int	brk(void*);
-extern	int	chdir(char*);
 extern	int	close(int);
 extern	int	create(char*, int, ulong);
-extern	int	dup(int, int);
 extern	int	errstr(char*, uint);
 extern	int	exec(char*, char*[]);
-//extern	int	execl(char*, ...);
 extern	int	fork(void);
 extern	int	rfork(int);
 extern	int	fauth(int, char*);
@@ -676,15 +665,11 @@ extern	int	open(char*, int);
 extern	int	fd2path(int, char*, int);
 // extern	int	fdflush(int);
 extern	int	pipe(int*);
-extern	long	pread(int, void*, long, vlong);
 extern	long	preadv(int, IOchunk*, int, vlong);
-extern	long	pwrite(int, void*, long, vlong);
 extern	long	pwritev(int, IOchunk*, int, vlong);
-extern	long	read(int, void*, long);
 extern	long	readn(int, void*, long);
 extern	long	readv(int, IOchunk*, int);
 extern	int	remove(char*);
-extern	void*	sbrk(ulong);
 extern	long	oseek(int, long, int);
 extern	vlong	seek(int, vlong, int);
 extern	void*	segattach(int, char*, void*, ulong);
@@ -694,12 +679,10 @@ extern	int	segflush(void*, ulong);
 extern	int	segfree(void*, ulong);
 extern	int	semacquire(long*, int);
 extern	long	semrelease(long*, long);
-extern	int	sleep(long);
 extern	int	stat(char*, uchar*, int);
 extern	int	tsemacquire(long*, ulong);
 extern	Waitmsg*	wait(void);
 extern	int	waitpid(void);
-extern	long	write(int, void*, long);
 extern	long	writev(int, IOchunk*, int);
 extern	int	wstat(char*, uchar*, int);
 extern	void*	rendezvous(void*, void*);

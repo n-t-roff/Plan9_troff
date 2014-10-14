@@ -7,7 +7,9 @@ OFILES =	pow10.o rune.o utflen.o getfields.o utfrune.o utfecpy.o \
 		strrchr.o strspn.o strstr.o strtod.o strtok.o strtol.o \
 		strtoll.o strtoul.o strtoull.o muldiv.o atof.o atol.o \
 		atoll.o getcallerpc.o charstod.o runetype.o runebsearch.o \
-		tokenize.o cistrcmp.o
+		tokenize.o cistrcmp.o runestrcpy.o runestrlen.o \
+		runestrcmp.o runestrchr.o runestrstr.o runestrecpy.o \
+		runestrncmp.o runestrcat.o
 
 CPPFLAGS =	-I../../../include
 
