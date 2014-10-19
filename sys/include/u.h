@@ -13,7 +13,6 @@ typedef unsigned long long uintptr;
 typedef unsigned long	usize;
 typedef	uint		Rune;
 typedef union FPdbleword FPdbleword;
-typedef uintptr		jmp_buf[2];
 #define	JMPBUFSP	0
 #define	JMPBUFPC	1
 #define	JMPBUFDPC	0
@@ -76,4 +75,5 @@ typedef	char*	va_list;
 		((list += sizeof(mode)), (mode*)list)[-1])
 */
 #include <stdarg.h>
+
 #endif /* __U_H__ */

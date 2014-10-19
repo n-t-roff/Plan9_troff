@@ -6,16 +6,11 @@ PKGROOT =	../../../../..
 TARG =		tr2post
 
 OFILES =	tr2post.o chartab.o Bgetfield.o conv.o utils.o devcntl.o \
-		draw.o readDESC.o ps_include.o pictures.o \
-		${COMMONDIR}/common.o
+		draw.o readDESC.o ps_include.o pictures.o
 
-
-HFILES =	tr2post.h ps_include.h ${COMMONDIR}/common.h \
-		${COMMONDIR}/comments.h ${COMMONDIR}/path.h \
-		${COMMONDIR}/ext.h
 
 CPPFLAGS =	-D'PROGRAMVERSION="0.1"' -D'DOROUND=1' -I${COMMONDIR} \
-		-D'PROGRAMNAME="troff, Plan 9 edition"' \
+		-D'PROGRAMNAME="$(PROGRAMNAME)"' \
 		-I${PKGROOT}/sys/include -DFONTDIR='"${DWBHOME}/${FONTDIR}"' \
 		-DPOSTDIR='"${DWBHOME}/${POSTDIR}"' \
 		-DTEMPDIR='"${TEMPDIR}"'
@@ -38,5 +33,5 @@ uninstall:
 		rm -f ${_BINDIR}/${TARG}
 		@rmdir ${_BINDIR} 2> /dev/null || true
 
-${TARG}:	${OFILES}
-		${CC} -o $@ ${OFILES} ${_LDFLAGS}
+${TARG}:	${OFILES} ${COMMONDIR}/common.o
+		${CC} -o $@ ${OFILES} ${COMMONDIR}/common.o ${_LDFLAGS}

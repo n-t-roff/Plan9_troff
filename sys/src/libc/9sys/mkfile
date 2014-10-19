@@ -1,6 +1,6 @@
 LIB =		libc_9sys.a
 
-OFILES =	sysfatal.o rerrstr.o dirstat.o convM2D.o dirfstat.o
+OFILES =	sysfatal.o rerrstr.o convM2D.o #dirstat.o dirfstat.o
 
 CPPFLAGS =	-I../../../include
 

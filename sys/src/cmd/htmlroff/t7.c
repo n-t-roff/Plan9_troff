@@ -5,6 +5,7 @@
  *	builtins can be renamed or removed!
  */
 
+#include <setjmp.h>
 #include "a.h"
 
 enum
@@ -103,10 +104,10 @@ runmacro1(Rune *name)
 	bol = 1;
 	if(runmacro('.', 1, argv) >= 0){
 		inputnotify(popmacro1);
-		//if(!setjmp(runjb[nrunjb++]))
+		if(!setjmp(runjb[nrunjb++]))
 			runinput();
-		//else
-		//	if(verbose) fprint(2, "finished %S\n", name);
+		else
+			if(verbose) fprint(2, "finished %S\n", name);
 	}
 	bol = obol;
 }
@@ -116,9 +117,7 @@ popmacro1(void)
 {
 	popmacro();
 	if(nrunjb > 0)
-	{
-		//longjmp(runjb[--nrunjb], 1);
-	}
+		longjmp(runjb[--nrunjb], 1);
 }
 
 /*

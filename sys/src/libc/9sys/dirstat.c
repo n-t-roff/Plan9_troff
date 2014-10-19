@@ -1,6 +1,7 @@
 #include <u.h>
 #include <libc.h>
 #include <fcall.h>
+#include <sys/stat.h>
 
 enum
 {

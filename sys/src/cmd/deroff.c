@@ -1,6 +1,8 @@
 #include <u.h>
 #include <libc.h>
 #include <bio.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 /*
  * Deroff command -- strip troff, eqn, and tbl sequences from
@@ -255,7 +257,11 @@ getfname(void)
 {
 	char *p;
 	Rune r;
+#	if 0
 	Dir *dir;
+#	else
+	struct stat sb;
+#	endif
 	struct chain
 	{ 
 		struct	chain*	nextp; 
@@ -271,11 +277,12 @@ getfname(void)
 	*p = '\0';
 	while(c != '\n')
 		C;
-	if(!strcmp(fname, "/sys/lib/tmac/tmac.cs")
-			|| !strcmp(fname, "/sys/lib/tmac/tmac.s")) {
+	if(!strcmp(fname, TMACDIR "/tmac.cs")
+			|| !strcmp(fname, TMACDIR "/tmac.s")) {
 		fname[0] = '\0';
 		return;
 	}
+#	if 0
 	dir = dirstat(fname);
 	if(dir!=nil && ((dir->mode & DMDIR) || dir->type != 'M')) {
 		free(dir);
@@ -283,6 +290,21 @@ getfname(void)
 		return;
 	}
 	free(dir);
+#	else
+	switch (stat(fname, &sb)) {
+	case 0:
+		if (S_ISREG(sb.st_mode))
+			break;
+		fname[0] = '\0';
+		return;
+	case -1:
+		fprint(2, "Deroff: Cannot open file %s: %s - continuing\n",
+		    fname, strerror(errno));
+	default:
+		fname[0] = '\0';
+		return;
+	}
+#	endif
 	/*
 	 * see if this name has already been used
 	 */

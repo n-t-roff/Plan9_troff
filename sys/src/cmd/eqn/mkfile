@@ -30,19 +30,8 @@ uninstall:
 		rm -f ${_BINDIR}/${TARG}
 		@rmdir ${_BINDIR} 2> /dev/null || true
 
-${TARG}:	${OFILES}
+${TARG}:	eqn.c ${OFILES}
 		${CC} -o $@ ${OFILES} ${_LDFLAGS}
-
-diacrit.o:	eqn.o
-funny.o:	eqn.o
-input.o:	eqn.o
-integral.o:	eqn.o
-lex.o:		eqn.o
-lookup.o:	eqn.o
-move.o:		eqn.o
-pile.o:		eqn.o
-shift.o:	eqn.o
-text.o:		eqn.o
 
 eqn.c:		eqn.y
 		$(YACC.y) eqn.y
