@@ -1295,8 +1295,8 @@ ABSTRACT
 .nr IS \\n(IP
 .RT
 .nr IP \\n(IS
-.nr IR \\n(IU
-.nr IU +1
+.nr IU \\n(IR
+.nr IR +1
 .if !\\n(I\\n(IR .nr I\\n(IR \\n(I\\n(IU+\\n(PIu
 .in \\n(I\\n(IRu
 .nr TY \\n(TZ-\\n(.i
@@ -1307,7 +1307,6 @@ ABSTRACT
 .nr IS \\n(IP
 .RT
 .nr IP \\n(IS
-.nr IU \\n(IR
 .if \\n(IR>0 .nr IR -1
 .in \\n(I\\n(IRu
 ..
